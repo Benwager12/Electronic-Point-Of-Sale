@@ -24,7 +24,8 @@ Partial Class MainScreen
     Private Sub InitializeComponent()
         Me.btnFullscreen = New System.Windows.Forms.Button()
         Me.lblPOS = New System.Windows.Forms.Label()
-        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.panelButtons = New System.Windows.Forms.Panel()
+        Me.displayPage = New System.Windows.Forms.Button()
         Me.btnUpDirectory = New System.Windows.Forms.Button()
         Me.lblNoButtons = New System.Windows.Forms.Label()
         Me.btnNext = New System.Windows.Forms.Button()
@@ -38,7 +39,8 @@ Partial Class MainScreen
         Me.btnProduct8 = New System.Windows.Forms.Button()
         Me.btnProduct2 = New System.Windows.Forms.Button()
         Me.btnProduct7 = New System.Windows.Forms.Button()
-        Me.Panel1.SuspendLayout()
+        Me.panelImageDisplay = New System.Windows.Forms.Panel()
+        Me.panelButtons.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnFullscreen
@@ -60,32 +62,43 @@ Partial Class MainScreen
         Me.lblPOS.TabIndex = 1
         Me.lblPOS.Text = "Point of Sale"
         '
-        'Panel1
+        'panelButtons
         '
-        Me.Panel1.Controls.Add(Me.btnUpDirectory)
-        Me.Panel1.Controls.Add(Me.lblNoButtons)
-        Me.Panel1.Controls.Add(Me.btnNext)
-        Me.Panel1.Controls.Add(Me.btnProduct1)
-        Me.Panel1.Controls.Add(Me.btnPrev)
-        Me.Panel1.Controls.Add(Me.btnProduct4)
-        Me.Panel1.Controls.Add(Me.btnProduct3)
-        Me.Panel1.Controls.Add(Me.btnProduct9)
-        Me.Panel1.Controls.Add(Me.btnProduct5)
-        Me.Panel1.Controls.Add(Me.btnProduct6)
-        Me.Panel1.Controls.Add(Me.btnProduct8)
-        Me.Panel1.Controls.Add(Me.btnProduct2)
-        Me.Panel1.Controls.Add(Me.btnProduct7)
-        Me.Panel1.Location = New System.Drawing.Point(12, 77)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(598, 374)
-        Me.Panel1.TabIndex = 3
+        Me.panelButtons.Controls.Add(Me.displayPage)
+        Me.panelButtons.Controls.Add(Me.btnUpDirectory)
+        Me.panelButtons.Controls.Add(Me.lblNoButtons)
+        Me.panelButtons.Controls.Add(Me.btnNext)
+        Me.panelButtons.Controls.Add(Me.btnProduct1)
+        Me.panelButtons.Controls.Add(Me.btnPrev)
+        Me.panelButtons.Controls.Add(Me.btnProduct4)
+        Me.panelButtons.Controls.Add(Me.btnProduct3)
+        Me.panelButtons.Controls.Add(Me.btnProduct9)
+        Me.panelButtons.Controls.Add(Me.btnProduct5)
+        Me.panelButtons.Controls.Add(Me.btnProduct6)
+        Me.panelButtons.Controls.Add(Me.btnProduct8)
+        Me.panelButtons.Controls.Add(Me.btnProduct2)
+        Me.panelButtons.Controls.Add(Me.btnProduct7)
+        Me.panelButtons.Location = New System.Drawing.Point(12, 77)
+        Me.panelButtons.Name = "panelButtons"
+        Me.panelButtons.Size = New System.Drawing.Size(598, 374)
+        Me.panelButtons.TabIndex = 3
+        '
+        'displayPage
+        '
+        Me.displayPage.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.displayPage.Location = New System.Drawing.Point(196, 318)
+        Me.displayPage.Name = "displayPage"
+        Me.displayPage.Size = New System.Drawing.Size(187, 28)
+        Me.displayPage.TabIndex = 27
+        Me.displayPage.Text = "Page 1/1"
+        Me.displayPage.UseVisualStyleBackColor = True
         '
         'btnUpDirectory
         '
-        Me.btnUpDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnUpDirectory.Location = New System.Drawing.Point(196, 277)
         Me.btnUpDirectory.Name = "btnUpDirectory"
-        Me.btnUpDirectory.Size = New System.Drawing.Size(187, 69)
+        Me.btnUpDirectory.Size = New System.Drawing.Size(187, 35)
         Me.btnUpDirectory.TabIndex = 26
         Me.btnUpDirectory.Text = "↑"
         Me.btnUpDirectory.UseVisualStyleBackColor = True
@@ -214,26 +227,35 @@ Partial Class MainScreen
         Me.btnProduct7.Text = "7"
         Me.btnProduct7.UseVisualStyleBackColor = True
         '
+        'panelImageDisplay
+        '
+        Me.panelImageDisplay.BackColor = System.Drawing.SystemColors.Control
+        Me.panelImageDisplay.Location = New System.Drawing.Point(597, 77)
+        Me.panelImageDisplay.Name = "panelImageDisplay"
+        Me.panelImageDisplay.Size = New System.Drawing.Size(191, 181)
+        Me.panelImageDisplay.TabIndex = 4
+        '
         'MainScreen
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit
         Me.AutoSize = True
         Me.ClientSize = New System.Drawing.Size(800, 512)
+        Me.Controls.Add(Me.panelImageDisplay)
         Me.Controls.Add(Me.lblPOS)
         Me.Controls.Add(Me.btnFullscreen)
-        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.panelButtons)
         Me.MinimumSize = New System.Drawing.Size(816, 489)
         Me.Name = "MainScreen"
         Me.Text = "Point of Sale"
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
+        Me.panelButtons.ResumeLayout(False)
+        Me.panelButtons.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents btnFullscreen As Button
     Friend WithEvents lblPOS As Label
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents panelButtons As Panel
     Friend WithEvents btnNext As Button
     Friend WithEvents btnProduct1 As Button
     Friend WithEvents btnPrev As Button
@@ -247,4 +269,6 @@ Partial Class MainScreen
     Friend WithEvents btnProduct7 As Button
     Friend WithEvents lblNoButtons As Label
     Friend WithEvents btnUpDirectory As Button
+    Friend WithEvents panelImageDisplay As Panel
+    Friend WithEvents displayPage As Button
 End Class

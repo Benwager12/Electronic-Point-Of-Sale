@@ -41,12 +41,6 @@ Public Class Utility
         End If
 
         Dim Objects As String() = File.ReadAllLines(Path)
-        If Objects.Count > 9 Then
-            MsgBox("More than 9 objects on page (max of 9)", MsgBoxStyle.Critical,
-                   "More objects than expected")
-            Return Nothing
-        End If
-
         Dim page As Page = New Page()
 
         For Each PObject In Objects
@@ -82,21 +76,36 @@ Public Class Utility
     End Function
 
     Public Shared Sub LoadPage(ByVal MS As MainScreen, ByVal P As Page)
-        MS.lblNoButtons.Visible = (P.PageObjects.Count = 0)
+        MS.lblNoButtons.Visible = (P.PageObjects.Count <= 0 + (Values.CurrentPageNumber - 1) * 9)
+        MS.btnPrev.Visible = (Not Values.CurrentPageNumber = 1)
+        MS.btnNext.Visible = (Values.CurrentPageNumber = (P.PageObjects.Count - 1) \ 9)
 
-        ChangeButton(MS.btnProduct1, P, 0)
-        ChangeButton(MS.btnProduct2, P, 1)
-        ChangeButton(MS.btnProduct3, P, 2)
-        ChangeButton(MS.btnProduct4, P, 3)
-        ChangeButton(MS.btnProduct5, P, 4)
-        ChangeButton(MS.btnProduct6, P, 5)
-        ChangeButton(MS.btnProduct7, P, 6)
-        ChangeButton(MS.btnProduct8, P, 7)
-        ChangeButton(MS.btnProduct9, P, 8)
+        ' TODO: FIX THIS!!!
+
+        ChangeButton(MS.btnProduct1, P, 0 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct2, P, 1 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct3, P, 2 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct4, P, 3 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct5, P, 4 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct6, P, 5 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct7, P, 6 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct8, P, 7 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MS.btnProduct9, P, 8 + 9 * (Values.CurrentPageNumber - 1))
+
+        Console.WriteLine(9 * (Values.CurrentPageNumber - 1))
+        Dim obj As List(Of PageObject) = P.PageObjects
+
+        MS.displayPage.Text = String.Concat("Page ", Values.CurrentPageNumber, "/", Math.Ceiling(P.PageObjects.Count / 9))
+        MS.btnUpDirectory.Visible = Not Values.Folders.Count = 0
+
+        Values.CurrentPage = P
     End Sub
 
     Private Shared Sub ChangeButton(ByVal Button As Button, ByVal P As Page, ByVal Number As Integer)
-        If P.PageObjects.Count > Number Then
+        ' ((Values.CurrentPageNumber - 1) * 9 + Number)
+        Dim amountNeeded As Integer = Number + 1
+
+        If P.PageObjects.Count >= Number + 1 Then
             If P.PageObjects(Number).Type = ObjectType.Item Then
                 Button.Text = Values.Products(P.PageObjects(Number).ItemID - 1).Name
             Else

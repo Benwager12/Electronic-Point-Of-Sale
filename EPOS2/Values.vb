@@ -12,4 +12,8 @@ Public Class Values
     End Sub
 
     Public Shared Products As List(Of Product) = New List(Of Product)
+
+    Public Shared CurrentPageNumber As Integer = 1
+
+    Public Shared CurrentPage As Page = Nothing
 End Class

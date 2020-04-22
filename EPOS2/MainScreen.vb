@@ -54,4 +54,14 @@ Public Class MainScreen
         Dim processedPage As Page = Utility.ProcessPage(processedPath)
         Utility.LoadPage(Me, processedPage)
     End Sub
+
+    Private Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
+        Values.CurrentPageNumber -= 1
+        Utility.LoadPage(Me, Values.CurrentPage)
+    End Sub
+
+    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        Values.CurrentPageNumber += 1
+        Utility.LoadPage(Me, Values.CurrentPage)
+    End Sub
 End Class
