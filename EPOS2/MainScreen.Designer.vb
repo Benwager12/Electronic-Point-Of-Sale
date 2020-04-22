@@ -40,7 +40,11 @@ Partial Class MainScreen
         Me.btnProduct2 = New System.Windows.Forms.Button()
         Me.btnProduct7 = New System.Windows.Forms.Button()
         Me.panelImageDisplay = New System.Windows.Forms.Panel()
+        Me.dataShoppingList = New System.Windows.Forms.DataGridView()
+        Me.itemName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.itemPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.panelButtons.SuspendLayout()
+        CType(Me.dataShoppingList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnFullscreen
@@ -229,17 +233,45 @@ Partial Class MainScreen
         '
         'panelImageDisplay
         '
-        Me.panelImageDisplay.BackColor = System.Drawing.SystemColors.Control
+        Me.panelImageDisplay.BackColor = System.Drawing.SystemColors.ControlDarkDark
         Me.panelImageDisplay.Location = New System.Drawing.Point(597, 77)
         Me.panelImageDisplay.Name = "panelImageDisplay"
         Me.panelImageDisplay.Size = New System.Drawing.Size(191, 181)
         Me.panelImageDisplay.TabIndex = 4
+        '
+        'dataShoppingList
+        '
+        Me.dataShoppingList.AllowUserToAddRows = False
+        Me.dataShoppingList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.dataShoppingList.BackgroundColor = System.Drawing.SystemColors.Control
+        Me.dataShoppingList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dataShoppingList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.itemName, Me.itemPrice})
+        Me.dataShoppingList.Location = New System.Drawing.Point(597, 273)
+        Me.dataShoppingList.Name = "dataShoppingList"
+        Me.dataShoppingList.ReadOnly = True
+        Me.dataShoppingList.Size = New System.Drawing.Size(191, 150)
+        Me.dataShoppingList.TabIndex = 5
+        '
+        'itemName
+        '
+        Me.itemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.itemName.HeaderText = "Name"
+        Me.itemName.Name = "itemName"
+        Me.itemName.ReadOnly = True
+        '
+        'itemPrice
+        '
+        Me.itemPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.itemPrice.HeaderText = "Price"
+        Me.itemPrice.Name = "itemPrice"
+        Me.itemPrice.ReadOnly = True
         '
         'MainScreen
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit
         Me.AutoSize = True
         Me.ClientSize = New System.Drawing.Size(800, 512)
+        Me.Controls.Add(Me.dataShoppingList)
         Me.Controls.Add(Me.panelImageDisplay)
         Me.Controls.Add(Me.lblPOS)
         Me.Controls.Add(Me.btnFullscreen)
@@ -249,6 +281,7 @@ Partial Class MainScreen
         Me.Text = "Point of Sale"
         Me.panelButtons.ResumeLayout(False)
         Me.panelButtons.PerformLayout()
+        CType(Me.dataShoppingList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -271,4 +304,7 @@ Partial Class MainScreen
     Friend WithEvents btnUpDirectory As Button
     Friend WithEvents panelImageDisplay As Panel
     Friend WithEvents displayPage As Button
+    Friend WithEvents dataShoppingList As DataGridView
+    Friend WithEvents itemName As DataGridViewTextBoxColumn
+    Friend WithEvents itemPrice As DataGridViewTextBoxColumn
 End Class

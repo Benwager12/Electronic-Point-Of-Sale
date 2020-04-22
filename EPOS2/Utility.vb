@@ -7,13 +7,14 @@ Public Class Utility
 
     Public Class PageObject
         Public ItemID As Integer
-        Public FolderPlacement As String
+        Public PathPlacement As String
         Public Type As ObjectType
     End Class
 
     Public Enum ObjectType As Byte
         Item
         Folder
+        Page
     End Enum
 
     Public Class Product
@@ -27,7 +28,7 @@ Public Class Utility
         Dim newPath As String = Path.Combine(Directory.GetCurrentDirectory(), "EPOS Resources") + "\"
 
         If RawPath.StartsWith("\") Then
-            newPath += workingDirectory + RawPath.Substring(1)
+            newPath += workingDirectory + RawPath
         Else
             newPath = Path.Combine(newPath, RawPath)
         End If
@@ -48,13 +49,15 @@ Public Class Utility
             Dim splitParts As String() = PObject.Split("^")
 
             If splitParts(0).ToLower = "folder" Then
-                tempPobj.folderPlacement = ProcessPath(splitParts(1))
-                If Not Directory.Exists(tempPobj.folderPlacement) Then
-                    MsgBox("Folder '" + tempPobj.folderPlacement + "' does not exist.",
+                tempPobj.PathPlacement = ProcessPath(splitParts(1))
+                If Not Directory.Exists(ProcessPath(tempPobj.PathPlacement)) Then
+                    MsgBox("Folder '" + tempPobj.PathPlacement + "' does not exist.",
                            MsgBoxStyle.Information, "Folder does not exist")
                     Continue For
                 End If
+
                 tempPobj.Type = ObjectType.Folder
+                page.PageObjects.Add(tempPobj)
             End If
 
             If splitParts(0).ToLower = "item" Then
@@ -63,56 +66,149 @@ Public Class Utility
                            MsgBoxStyle.Information, "Not numeric")
                     Continue For
                 End If
-                tempPobj.itemID = Int(splitParts(1))
-                ' TODO: Check if products file has this number
+                tempPobj.ItemID = Int(splitParts(1))
+
+                ' Checking if product exists
+                If tempPobj.ItemID < 0 Or tempPobj.ItemID > Values.Products.Count Then
+                    MsgBox("Product does not exist", MsgBoxStyle.Information, "Not a product")
+                    Continue For
+                End If
 
                 tempPobj.Type = ObjectType.Item
+                page.PageObjects.Add(tempPobj)
             End If
 
-            page.PageObjects.Add(tempPobj)
+            If splitParts(0).ToLower = "page" Then
+                ' Checking if path is valid
+                If Not File.Exists(ProcessPath(splitParts(1))) Then
+                    MsgBox("The path '" + Str(splitParts(1)) + "' is not valid",
+                           MsgBoxStyle.Information, "Invalid path")
+                    Continue For
+                End If
+                tempPobj.PathPlacement = splitParts(1)
+
+                tempPobj.Type = ObjectType.Page
+                page.PageObjects.Add(tempPobj)
+            End If
         Next
 
         Return page
     End Function
 
-    Public Shared Sub LoadPage(ByVal MS As MainScreen, ByVal P As Page)
-        MS.lblNoButtons.Visible = (P.PageObjects.Count <= 0 + (Values.CurrentPageNumber - 1) * 9)
-        MS.btnPrev.Visible = (Not Values.CurrentPageNumber = 1)
-        MS.btnNext.Visible = (Values.CurrentPageNumber = (P.PageObjects.Count - 1) \ 9)
+    Public Shared Sub ProcessButton(tag As Object)
+        Dim splitParts As String() = tag.Split("^")
 
-        ' TODO: FIX THIS!!!
+        Select Case splitParts(0)
+            Case "item"
+                ' Added item to shopping cart
+                Dim prod As Product = GetProduct(splitParts(1))
+                Values.MSInstance.dataShoppingList.Rows.Add(prod.Name, String.Concat("£", prod.Price))
 
-        ChangeButton(MS.btnProduct1, P, 0 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct2, P, 1 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct3, P, 2 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct4, P, 3 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct5, P, 4 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct6, P, 5 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct7, P, 6 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct8, P, 7 + 9 * (Values.CurrentPageNumber - 1))
-        ChangeButton(MS.btnProduct9, P, 8 + 9 * (Values.CurrentPageNumber - 1))
+                updatePrice()
+            Case "page"
+                Values.CurrentPageNumber = 1
+                FullPageLoad(splitParts(1))
+            Case "folder"
+                ' Gets all page files in a directory and puts it into a page file
+                Dim P As Page = DirectoryAsPage(splitParts(1))
+                ' Go a folder deeper
+                Dim folderName As String = Path.GetFileName(splitParts(1)).Split("\")(0)
+                Values.Folders.Add(folderName)
+                ' Display it as a page
+                Values.CurrentPage = P
+                Values.CurrentPageNumber = 1
+                LoadPage()
+        End Select
+    End Sub
 
-        Console.WriteLine(9 * (Values.CurrentPageNumber - 1))
-        Dim obj As List(Of PageObject) = P.PageObjects
+    Public Shared Sub updatePrice()
+        Throw New NotImplementedException()
+    End Sub
 
-        MS.displayPage.Text = String.Concat("Page ", Values.CurrentPageNumber, "/", Math.Ceiling(P.PageObjects.Count / 9))
-        MS.btnUpDirectory.Visible = Not Values.Folders.Count = 0
+    Public Shared Function DirectoryAsPage(ByVal unprocessed_path As String)
+        ' Get all files in the path directory
+        Dim P As Page = New Page()
 
-        Values.CurrentPage = P
+        For Each file In Directory.EnumerateFiles(ProcessPath(unprocessed_path))
+            ' If it isn't a page file, don't include it
+            If Not file.EndsWith(".page") Then
+                Continue For
+            End If
+
+            ' Create the page objects and fill them
+            Dim tempPobj As PageObject = New PageObject()
+            tempPobj.PathPlacement = String.Concat("\", Path.GetFileName(file))
+            tempPobj.Type = ObjectType.Page
+
+            ' Add the page objects to the page file
+            P.PageObjects.Add(tempPobj)
+        Next
+
+        Return P
+    End Function
+
+    ' Collation of load functions
+    Public Shared Sub FullPageLoad(ByVal Path As String)
+        ' Processed unprocessed path
+        Dim processedPath As String = ProcessPath(Path)
+        ' Turn path into page
+        Dim processedPage As Page = ProcessPage(processedPath)
+        ' Load page into values
+        Values.CurrentPage = processedPage
+        ' Do a full page load
+        Utility.LoadPage()
+    End Sub
+
+    ' Simple product lookup
+    Public Shared Function GetProduct(ByVal ProductID As Integer)
+        Return Values.Products.ElementAt(ProductID - 1)
+    End Function
+
+    ' Meat of the load page
+    Public Shared Sub LoadPage()
+        ' Grabbing current page
+        Dim P As Page = Values.CurrentPage
+
+        Dim MSInstance As MainScreen = Values.MSInstance
+        ' Checks if there are any items on page, if not puts up a label.
+        MSInstance.lblNoButtons.Visible = (P.PageObjects.Count <= 0 + (Values.CurrentPageNumber - 1) * 9)
+
+        ' The previous and next buttons
+        MSInstance.btnPrev.Visible = (Not Values.CurrentPageNumber = 1)
+        MSInstance.btnNext.Visible = (Values.CurrentPageNumber = (P.PageObjects.Count - 1) \ 9)
+
+        ' Changing each button the page
+        ChangeButton(MSInstance.btnProduct1, P, 0 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct2, P, 1 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct3, P, 2 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct4, P, 3 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct5, P, 4 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct6, P, 5 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct7, P, 6 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct8, P, 7 + 9 * (Values.CurrentPageNumber - 1))
+        ChangeButton(MSInstance.btnProduct9, P, 8 + 9 * (Values.CurrentPageNumber - 1))
+
+        MSInstance.displayPage.Text = String.Concat("Page ", Values.CurrentPageNumber, "/", Math.Ceiling(P.PageObjects.Count / 9))
+        MSInstance.btnUpDirectory.Visible = Not Values.Folders.Count = 0
     End Sub
 
     Private Shared Sub ChangeButton(ByVal Button As Button, ByVal P As Page, ByVal Number As Integer)
-        ' ((Values.CurrentPageNumber - 1) * 9 + Number)
         Dim amountNeeded As Integer = Number + 1
 
         If P.PageObjects.Count >= Number + 1 Then
-            If P.PageObjects(Number).Type = ObjectType.Item Then
-                Button.Text = Values.Products(P.PageObjects(Number).ItemID - 1).Name
-            Else
-                Button.Text = P.PageObjects(Number).FolderPlacement
-            End If
-            Button.Tag = If(P.PageObjects(Number).Type = ObjectType.Item,
-                "item", String.Concat("folder^", P.PageObjects(Number).FolderPlacement))
+            Dim currentObject = P.PageObjects(Number)
+            Select Case currentObject.Type
+                Case ObjectType.Item
+                    Button.Text = Values.Products(currentObject.ItemID - 1).Name
+                    Button.Tag = String.Concat("item^", currentObject.ItemID)
+                Case ObjectType.Folder
+                    Button.Text = Path.GetFileName(currentObject.PathPlacement).Split("\")(0)
+                    Button.Tag = String.Concat("folder^", currentObject.PathPlacement)
+                Case ObjectType.Page
+                    Dim endPath As String = Path.GetFileName(currentObject.PathPlacement).Split("\")(0)
+                    Button.Text = endPath.Substring(0, endPath.Length - 5)
+                    Button.Tag = String.Concat("page^", currentObject.PathPlacement)
+            End Select
             Button.Visible = True
         Else
             Button.Visible = False

@@ -8,7 +8,8 @@ Public Class Values
 
     Public Shared Sub RemoveFolder()
         If Folders.Count = 0 Then Return
-        Folders.RemoveAt(-1)
+
+        Folders.RemoveAt(Folders.Count - 1)
     End Sub
 
     Public Shared Products As List(Of Product) = New List(Of Product)
@@ -16,4 +17,6 @@ Public Class Values
     Public Shared CurrentPageNumber As Integer = 1
 
     Public Shared CurrentPage As Page = Nothing
+
+    Public Shared MSInstance As MainScreen = Nothing
 End Class

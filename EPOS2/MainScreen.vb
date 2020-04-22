@@ -9,8 +9,9 @@ Public Class MainScreen
         res.FindAllControls(Me)
         createResources()
         Utility.LoadProducts()
+        Values.MSInstance = Me
 
-        FullPageLoad("index.page")
+        Utility.FullPageLoad("index.page")
     End Sub
 
     Private Sub MainScreen_Resize(sender As Object, e As EventArgs) Handles Me.Resize
@@ -49,19 +50,59 @@ Public Class MainScreen
         End If
     End Sub
 
-    Private Sub FullPageLoad(ByVal Path As String)
-        Dim processedPath As String = Utility.ProcessPath(Path)
-        Dim processedPage As Page = Utility.ProcessPage(processedPath)
-        Utility.LoadPage(Me, processedPage)
-    End Sub
-
     Private Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
         Values.CurrentPageNumber -= 1
-        Utility.LoadPage(Me, Values.CurrentPage)
+        Utility.LoadPage()
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
         Values.CurrentPageNumber += 1
-        Utility.LoadPage(Me, Values.CurrentPage)
+        Utility.LoadPage()
+    End Sub
+
+    Private Sub btnProduct1_Click(sender As Object, e As EventArgs) Handles btnProduct1.Click
+        Utility.ProcessButton(btnProduct1.Tag)
+    End Sub
+
+    Private Sub btnProduct2_Click(sender As Object, e As EventArgs) Handles btnProduct2.Click
+        Utility.ProcessButton(btnProduct2.Tag)
+        Utility.DirectoryAsPage("Test")
+    End Sub
+
+    Private Sub btnProduct3_Click(sender As Object, e As EventArgs) Handles btnProduct3.Click
+        Utility.ProcessButton(btnProduct3.Tag)
+    End Sub
+
+    Private Sub btnProduct4_Click(sender As Object, e As EventArgs) Handles btnProduct4.Click
+        Utility.ProcessButton(btnProduct4.Tag)
+    End Sub
+
+    Private Sub btnProduct5_Click(sender As Object, e As EventArgs) Handles btnProduct5.Click
+        Utility.ProcessButton(btnProduct5.Tag)
+    End Sub
+
+    Private Sub btnProduct6_Click(sender As Object, e As EventArgs) Handles btnProduct6.Click
+        Utility.ProcessButton(btnProduct6.Tag)
+    End Sub
+
+    Private Sub btnProduct7_Click(sender As Object, e As EventArgs) Handles btnProduct7.Click
+        Utility.ProcessButton(btnProduct7.Tag)
+    End Sub
+
+    Private Sub btnProduct8_Click(sender As Object, e As EventArgs) Handles btnProduct8.Click
+        Utility.ProcessButton(btnProduct8.Tag)
+    End Sub
+
+    Private Sub btnProduct9_Click(sender As Object, e As EventArgs) Handles btnProduct9.Click
+        Utility.ProcessButton(btnProduct9.Tag)
+    End Sub
+
+    Private Sub btnUpDirectory_Click(sender As Object, e As EventArgs) Handles btnUpDirectory.Click
+        Values.RemoveFolder()
+
+    End Sub
+
+    Private Sub dataShoppingList_UserDeletedRow(sender As Object, e As DataGridViewRowEventArgs) Handles dataShoppingList.UserDeletedRow
+        Utility.updatePrice()
     End Sub
 End Class

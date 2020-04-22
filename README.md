@@ -23,9 +23,9 @@ Index.page is sort of like the index.html file when you are creating in web deve
     item^5
 If you are unaware, the syntax goes:
 
-`[Item/Folder/Page]^[Product line number/Folder]`
+`[Item/Folder/Page]^[Product line number/Path]`
 
-It is created so you can have multiple pages (added in commit 4) and move between them seamlessly in a slide. The folders and pages are not yet implemented at this time but there is minimal support so they will be recognised in code.
+It is created so you can have multiple pages (added in commit 4) and move between them seamlessly in a slide. The folders are now fully implemented and you can go through them with the attached documents as an example.
 
 ### Products.prod
 The products.prod file is also a caret separated document but unlike the Index.page file, there is only one of them and the program refers to it when looking up every single item that it has on offer. It is used largely in conjunction because the line number that the product is on is it's ID.
@@ -38,3 +38,4 @@ If you aware unaware, the syntax goes:
 
 `[Name of item]^[Price]^[Reference to image]`
 
+A total is not currently implemented (as of commit 5). It will be in the next commit. The shopping list adds items when they are clicked and the Name and Price to the list.
