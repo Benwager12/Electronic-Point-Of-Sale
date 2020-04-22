@@ -43,6 +43,8 @@ Partial Class MainScreen
         Me.dataShoppingList = New System.Windows.Forms.DataGridView()
         Me.itemName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.itemPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lblShoppingTotal = New System.Windows.Forms.Label()
+        Me.lblAmount = New System.Windows.Forms.Label()
         Me.panelButtons.SuspendLayout()
         CType(Me.dataShoppingList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -84,7 +86,7 @@ Partial Class MainScreen
         Me.panelButtons.Controls.Add(Me.btnProduct7)
         Me.panelButtons.Location = New System.Drawing.Point(12, 77)
         Me.panelButtons.Name = "panelButtons"
-        Me.panelButtons.Size = New System.Drawing.Size(598, 374)
+        Me.panelButtons.Size = New System.Drawing.Size(598, 386)
         Me.panelButtons.TabIndex = 3
         '
         'displayPage
@@ -249,6 +251,7 @@ Partial Class MainScreen
         Me.dataShoppingList.Location = New System.Drawing.Point(597, 273)
         Me.dataShoppingList.Name = "dataShoppingList"
         Me.dataShoppingList.ReadOnly = True
+        Me.dataShoppingList.RowHeadersVisible = False
         Me.dataShoppingList.Size = New System.Drawing.Size(191, 150)
         Me.dataShoppingList.TabIndex = 5
         '
@@ -266,11 +269,33 @@ Partial Class MainScreen
         Me.itemPrice.Name = "itemPrice"
         Me.itemPrice.ReadOnly = True
         '
+        'lblShoppingTotal
+        '
+        Me.lblShoppingTotal.AutoSize = True
+        Me.lblShoppingTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblShoppingTotal.Location = New System.Drawing.Point(12, 454)
+        Me.lblShoppingTotal.Name = "lblShoppingTotal"
+        Me.lblShoppingTotal.Size = New System.Drawing.Size(393, 42)
+        Me.lblShoppingTotal.TabIndex = 6
+        Me.lblShoppingTotal.Text = "The Shopping Total Is:"
+        '
+        'lblAmount
+        '
+        Me.lblAmount.AutoSize = True
+        Me.lblAmount.Font = New System.Drawing.Font("Microsoft Sans Serif", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAmount.Location = New System.Drawing.Point(428, 454)
+        Me.lblAmount.Name = "lblAmount"
+        Me.lblAmount.Size = New System.Drawing.Size(112, 42)
+        Me.lblAmount.TabIndex = 7
+        Me.lblAmount.Text = "£0.00"
+        '
         'MainScreen
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit
         Me.AutoSize = True
         Me.ClientSize = New System.Drawing.Size(800, 512)
+        Me.Controls.Add(Me.lblAmount)
+        Me.Controls.Add(Me.lblShoppingTotal)
         Me.Controls.Add(Me.dataShoppingList)
         Me.Controls.Add(Me.panelImageDisplay)
         Me.Controls.Add(Me.lblPOS)
@@ -283,6 +308,7 @@ Partial Class MainScreen
         Me.panelButtons.PerformLayout()
         CType(Me.dataShoppingList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -307,4 +333,6 @@ Partial Class MainScreen
     Friend WithEvents dataShoppingList As DataGridView
     Friend WithEvents itemName As DataGridViewTextBoxColumn
     Friend WithEvents itemPrice As DataGridViewTextBoxColumn
+    Friend WithEvents lblShoppingTotal As Label
+    Friend WithEvents lblAmount As Label
 End Class

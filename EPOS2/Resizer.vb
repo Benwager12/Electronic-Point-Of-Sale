@@ -116,14 +116,14 @@ Public Class Resizer
                         If (ret) Then
                             '-- Size
                             ctl.Width = Int(parentWidth * c.widthPercent)
-                            ctl.Height = Int(parentHeight * c.heightPercent)
+                            ctl.Height = Int(parentHeight * c.heightPercent * 1.04)
                             If Values.IsFullScreen Then
-                                ctl.Height *= 1.06
+                                ctl.Height *= 1.05
                                 ctl.Width *= 1.01
                             End If
 
                             '-- Position
-                            ctl.Top = Int(parentHeight * c.topOffsetPercent)
+                            ctl.Top = Int(parentHeight * c.topOffsetPercent * 1.04)
                             ctl.Left = Int(parentWidth * c.leftOffsetPercent)
 
                             If Values.isFullScreen Then

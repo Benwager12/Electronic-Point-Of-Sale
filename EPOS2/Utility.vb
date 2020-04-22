@@ -122,7 +122,22 @@ Public Class Utility
     End Sub
 
     Public Shared Sub updatePrice()
-        Throw New NotImplementedException()
+        Dim price As Double = 0
+        Dim Rows = Values.MSInstance.dataShoppingList.Rows
+
+        For index = 0 To Values.MSInstance.dataShoppingList.Rows.Count - 1
+            price += CDbl(Rows(index).Cells(1).FormattedValue.Substring(1))
+        Next
+        Dim priceStr = CStr(price)
+        If Not priceStr.Contains(".") Then
+            priceStr += ".00"
+        End If
+        If priceStr.Split(".")(1).Length = 1 Then
+            priceStr += "0"
+        End If
+
+        priceStr = String.Concat("£", priceStr)
+        Values.MSInstance.lblAmount.Text = priceStr
     End Sub
 
     Public Shared Function DirectoryAsPage(ByVal unprocessed_path As String)
