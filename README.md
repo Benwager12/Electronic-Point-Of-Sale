@@ -38,4 +38,4 @@ If you aware unaware, the syntax goes:
 
 `[Name of item]^[Price]^[Reference to image]`
 
-The shopping list adds items when they are clicked and the Name and Price to the list. The total is not implemented (as of commmit 6). It is adding a total, the next features that are planned is to link the image with the currently solid grey box above the shopping list.
+The shopping list adds items when they are clicked and the Name and Price to the list. The total was fully implemented in commit 6. The next feature that is planned is to link the image with the currently solid grey box above the shopping list.
