@@ -1,8 +1,12 @@
-﻿Imports System.IO
+﻿Imports System.Linq
+Imports System.IO
+Imports System.Collections.Generic
 
 Public Class Utility
     Public Class Page
         Public PageObjects As List(Of PageObject) = New List(Of PageObject)
+
+        Public Name As String
     End Class
 
     Public Class PageObject
@@ -21,28 +25,22 @@ Public Class Utility
         Public Name As String
         Public Price As Double
         Public ImagePath As String
+        Public ListName As String
     End Class
 
     Public Shared Function ProcessPath(ByVal RawPath As String)
-        Dim workingDirectory As String = String.Join("\", Values.Folders)
-        Dim newPath As String = Path.Combine(Directory.GetCurrentDirectory(), "EPOS Resources") + "\"
-
-        If RawPath.StartsWith("\") Then
-            newPath += workingDirectory + RawPath
-        Else
-            newPath = Path.Combine(newPath, RawPath)
-        End If
-        Return newPath
+        Return Path.Combine(Directory.GetCurrentDirectory(), "EPOS Resources", RawPath)
     End Function
 
-    Public Shared Function ProcessPage(ByVal Path As String)
-        If Not File.Exists(Path) Then
+    Public Shared Function ProcessPage(ByVal p As String) As Page
+        If Not File.Exists(p) Then
             MsgBox("Page file does not exist", MsgBoxStyle.Critical, "Page nonexistant")
             Return Nothing
         End If
 
-        Dim Objects As String() = File.ReadAllLines(Path)
+        Dim Objects As String() = File.ReadAllLines(p)
         Dim page As Page = New Page()
+        page.Name = p
 
         For Each PObject In Objects
             Dim tempPobj As PageObject = New PageObject()
@@ -102,7 +100,7 @@ Public Class Utility
             Case "item"
                 ' Added item to shopping cart
                 Dim prod As Product = GetProduct(splitParts(1))
-                Values.MSInstance.dataShoppingList.Rows.Add(prod.Name, String.Concat("£", prod.Price))
+                Values.MSInstance.dataShoppingList.Rows.Add(prod.ListName, doubleToPriceStr(prod.Price))
 
                 updatePrice()
             Case "page"
@@ -113,7 +111,6 @@ Public Class Utility
                 Dim P As Page = DirectoryAsPage(splitParts(1))
                 ' Go a folder deeper
                 Dim folderName As String = Path.GetFileName(splitParts(1)).Split("\")(0)
-                Values.Folders.Add(folderName)
                 ' Display it as a page
                 Values.CurrentPage = P
                 Values.CurrentPageNumber = 1
@@ -128,6 +125,10 @@ Public Class Utility
         For index = 0 To Values.MSInstance.dataShoppingList.Rows.Count - 1
             price += CDbl(Rows(index).Cells(1).FormattedValue.Substring(1))
         Next
+        Values.MSInstance.lblAmount.Text = doubleToPriceStr(price)
+    End Sub
+
+    Public Shared Function doubleToPriceStr(ByVal price As Double) As String
         Dim priceStr = CStr(price)
         If Not priceStr.Contains(".") Then
             priceStr += ".00"
@@ -135,14 +136,13 @@ Public Class Utility
         If priceStr.Split(".")(1).Length = 1 Then
             priceStr += "0"
         End If
-
-        priceStr = String.Concat("£", priceStr)
-        Values.MSInstance.lblAmount.Text = priceStr
-    End Sub
+        Return String.Concat("£", priceStr)
+    End Function
 
     Public Shared Function DirectoryAsPage(ByVal unprocessed_path As String)
         ' Get all files in the path directory
         Dim P As Page = New Page()
+        P.Name = "Custom"
 
         For Each file In Directory.EnumerateFiles(ProcessPath(unprocessed_path))
             ' If it isn't a page file, don't include it
@@ -204,7 +204,11 @@ Public Class Utility
         ChangeButton(MSInstance.btnProduct9, P, 8 + 9 * (Values.CurrentPageNumber - 1))
 
         MSInstance.displayPage.Text = String.Concat("Page ", Values.CurrentPageNumber, "/", Math.Ceiling(P.PageObjects.Count / 9))
-        MSInstance.btnUpDirectory.Visible = Not Values.Folders.Count = 0
+
+        Dim name = P.Name.Substring(Path.Combine(Directory.GetCurrentDirectory(), "EPOS Resources").Count + 1)
+        Console.WriteLine(name)
+        MSInstance.btnIndex.Visible = Not name = "index.page"
+
     End Sub
 
     Private Shared Sub ChangeButton(ByVal Button As Button, ByVal P As Page, ByVal Number As Integer)
@@ -245,6 +249,11 @@ Public Class Utility
             tempProd.Price = CDbl(splitParts(1))
             tempProd.ImagePath = splitParts(2)
 
+            If splitParts.Count <= 3 Then
+                tempProd.ListName = tempProd.Name
+            Else
+                tempProd.ListName = splitParts(3)
+            End If
             Values.Products.Add(tempProd)
         Next
     End Sub

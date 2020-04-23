@@ -26,7 +26,7 @@ Partial Class MainScreen
         Me.lblPOS = New System.Windows.Forms.Label()
         Me.panelButtons = New System.Windows.Forms.Panel()
         Me.displayPage = New System.Windows.Forms.Button()
-        Me.btnUpDirectory = New System.Windows.Forms.Button()
+        Me.btnIndex = New System.Windows.Forms.Button()
         Me.lblNoButtons = New System.Windows.Forms.Label()
         Me.btnNext = New System.Windows.Forms.Button()
         Me.btnProduct1 = New System.Windows.Forms.Button()
@@ -71,7 +71,7 @@ Partial Class MainScreen
         'panelButtons
         '
         Me.panelButtons.Controls.Add(Me.displayPage)
-        Me.panelButtons.Controls.Add(Me.btnUpDirectory)
+        Me.panelButtons.Controls.Add(Me.btnIndex)
         Me.panelButtons.Controls.Add(Me.lblNoButtons)
         Me.panelButtons.Controls.Add(Me.btnNext)
         Me.panelButtons.Controls.Add(Me.btnProduct1)
@@ -99,15 +99,16 @@ Partial Class MainScreen
         Me.displayPage.Text = "Page 1/1"
         Me.displayPage.UseVisualStyleBackColor = True
         '
-        'btnUpDirectory
+        'btnIndex
         '
-        Me.btnUpDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpDirectory.Location = New System.Drawing.Point(196, 277)
-        Me.btnUpDirectory.Name = "btnUpDirectory"
-        Me.btnUpDirectory.Size = New System.Drawing.Size(187, 35)
-        Me.btnUpDirectory.TabIndex = 26
-        Me.btnUpDirectory.Text = "↑"
-        Me.btnUpDirectory.UseVisualStyleBackColor = True
+        Me.btnIndex.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnIndex.Location = New System.Drawing.Point(196, 277)
+        Me.btnIndex.Name = "btnIndex"
+        Me.btnIndex.Size = New System.Drawing.Size(187, 35)
+        Me.btnIndex.TabIndex = 26
+        Me.btnIndex.Text = "Back to Index"
+        Me.btnIndex.UseVisualStyleBackColor = True
+        Me.btnIndex.Visible = False
         '
         'lblNoButtons
         '
@@ -135,7 +136,7 @@ Partial Class MainScreen
         '
         'btnProduct1
         '
-        Me.btnProduct1.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct1.Location = New System.Drawing.Point(3, 3)
         Me.btnProduct1.Name = "btnProduct1"
         Me.btnProduct1.Size = New System.Drawing.Size(187, 86)
@@ -155,7 +156,7 @@ Partial Class MainScreen
         '
         'btnProduct4
         '
-        Me.btnProduct4.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct4.Location = New System.Drawing.Point(3, 95)
         Me.btnProduct4.Name = "btnProduct4"
         Me.btnProduct4.Size = New System.Drawing.Size(187, 86)
@@ -165,7 +166,7 @@ Partial Class MainScreen
         '
         'btnProduct3
         '
-        Me.btnProduct3.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct3.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct3.Location = New System.Drawing.Point(389, 3)
         Me.btnProduct3.Name = "btnProduct3"
         Me.btnProduct3.Size = New System.Drawing.Size(187, 86)
@@ -175,7 +176,7 @@ Partial Class MainScreen
         '
         'btnProduct9
         '
-        Me.btnProduct9.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct9.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct9.Location = New System.Drawing.Point(389, 187)
         Me.btnProduct9.Name = "btnProduct9"
         Me.btnProduct9.Size = New System.Drawing.Size(187, 86)
@@ -185,7 +186,7 @@ Partial Class MainScreen
         '
         'btnProduct5
         '
-        Me.btnProduct5.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct5.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct5.Location = New System.Drawing.Point(196, 95)
         Me.btnProduct5.Name = "btnProduct5"
         Me.btnProduct5.Size = New System.Drawing.Size(187, 86)
@@ -195,7 +196,7 @@ Partial Class MainScreen
         '
         'btnProduct6
         '
-        Me.btnProduct6.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct6.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct6.Location = New System.Drawing.Point(389, 95)
         Me.btnProduct6.Name = "btnProduct6"
         Me.btnProduct6.Size = New System.Drawing.Size(187, 86)
@@ -205,7 +206,7 @@ Partial Class MainScreen
         '
         'btnProduct8
         '
-        Me.btnProduct8.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct8.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct8.Location = New System.Drawing.Point(196, 187)
         Me.btnProduct8.Name = "btnProduct8"
         Me.btnProduct8.Size = New System.Drawing.Size(187, 86)
@@ -215,7 +216,7 @@ Partial Class MainScreen
         '
         'btnProduct2
         '
-        Me.btnProduct2.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct2.Location = New System.Drawing.Point(196, 3)
         Me.btnProduct2.Name = "btnProduct2"
         Me.btnProduct2.Size = New System.Drawing.Size(187, 86)
@@ -225,7 +226,7 @@ Partial Class MainScreen
         '
         'btnProduct7
         '
-        Me.btnProduct7.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProduct7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnProduct7.Location = New System.Drawing.Point(3, 187)
         Me.btnProduct7.Name = "btnProduct7"
         Me.btnProduct7.Size = New System.Drawing.Size(187, 86)
@@ -327,7 +328,7 @@ Partial Class MainScreen
     Friend WithEvents btnProduct2 As Button
     Friend WithEvents btnProduct7 As Button
     Friend WithEvents lblNoButtons As Label
-    Friend WithEvents btnUpDirectory As Button
+    Friend WithEvents btnIndex As Button
     Friend WithEvents panelImageDisplay As Panel
     Friend WithEvents displayPage As Button
     Friend WithEvents dataShoppingList As DataGridView

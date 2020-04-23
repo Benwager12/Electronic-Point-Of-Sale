@@ -66,7 +66,6 @@ Public Class MainScreen
 
     Private Sub btnProduct2_Click(sender As Object, e As EventArgs) Handles btnProduct2.Click
         Utility.ProcessButton(btnProduct2.Tag)
-        Utility.DirectoryAsPage("Test")
     End Sub
 
     Private Sub btnProduct3_Click(sender As Object, e As EventArgs) Handles btnProduct3.Click
@@ -97,12 +96,12 @@ Public Class MainScreen
         Utility.ProcessButton(btnProduct9.Tag)
     End Sub
 
-    Private Sub btnUpDirectory_Click(sender As Object, e As EventArgs) Handles btnUpDirectory.Click
-        Values.RemoveFolder()
-
-    End Sub
-
     Private Sub dataShoppingList_UserDeletedRow(sender As Object, e As DataGridViewRowEventArgs) Handles dataShoppingList.UserDeletedRow
         Utility.updatePrice()
+    End Sub
+
+    Private Sub btnIndex_Click(sender As Object, e As EventArgs) Handles btnIndex.Click
+        Values.CurrentPageNumber = 1
+        Utility.FullPageLoad("index.page")
     End Sub
 End Class
